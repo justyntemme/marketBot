@@ -2,60 +2,55 @@
 #include <stdlib.h>
 typedef struct chat_node 
 	{
-	int (*next_functions_addr)[];
-	char *words[15];
+	int (*next_function);
+	void* current_level;
 	char user_words[];
 	} chat_node;
+
+typedef struct person
+	{
+	char *credit_card_number;
+	char *firstName;
+	char *lastname;
+	char *address;
+	double balance;
+	} person;
+void add_item(int price, person *p)
+	{
+		p->balance+=price;
+	}
 
 //list of how tree should be structured, more for me than actuall documentation
 //                                                  Intro node (cout suggestion words?)
 //				[]					[]								[]
 //                        {list items}                    {list cart(for each in card price+list)}            {checkout(cout << enter fake cc #)(sanitize etc)}
 //             []           	[]            []
-//   {apples(add to cart)}    {banana(add to cart)}      {milk(add to cart $price of milk)}									
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-typedef struct order_intro
-	{
-		//definition of order_intro... adding structures almost as class objects too be navigated. chat_node will crawl the tree with each branch being 
-		//specified as a structure since instead of being generic,we want the customer to follow a path.
-	
-
-		char *reference_words[15]=NULL;
-		reference_words[0]="apple";
-		reference_words[1]="banana";
-		reference_words[2]="exit";
-
-
-	
-	}  order_intro;
-
+//   {apples(add to cart)}    {banana(add to cart)}      {milk(add to cart $price of milk)}	
+//
+//
+//
+//
+//
+//
+//   users will always be able to quit by either saying exit, quit, leave 
+//
+//   users will always get a help message displaying working commands when saying help
+//
+//   users will always list items, thenn return to intro node
+//
+//   to get complicated requests the engine will search and store all reference words in a array of strings
+//
+//   engne will itterate and first look for top level reference word. it will then follow the reference word looking for the next step in the user path in the 
+//   user string
+//
+//   	if secound level is not found in user string it will prompt user for 2nd string			
 
 
 int main(int argc, char *argv[])
 	{
+		char *wordDictionary[][];
+		
 
 	return 0;
 	}
 
-
-int *find_next_addr(chat_node  *current_chat_node)
-	{
-		int (*next_addr) = NULL;
-		for (int i = 0; i < (sizeof(current_chat_node->words)/sizeof(current_chat_node->words[0]));i++)
-			{
-			}
-		return next_addr;
-	}
