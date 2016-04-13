@@ -6,7 +6,11 @@ typedef struct chat_node
 	void* current_level;
 	char user_words[];
 	} chat_node;
-
+struct item
+	{
+	int price;
+	char *name;
+	}
 typedef struct person
 	{
 	char *credit_card_number;
@@ -15,11 +19,14 @@ typedef struct person
 	char *address;
 	double balance;
 	} person;
-void add_item(int price, person *p)
+void add_item(person *p, item *i)
 	{
 		p->balance+=price;
 	}
+void subtract_item(person *p, item *i)
+	{
 
+	}
 //list of how tree should be structured, more for me than actuall documentation
 //                                                  Intro node (cout suggestion words?)
 //				[]					[]								[]
