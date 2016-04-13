@@ -49,6 +49,15 @@ void add_item(int price, person *p)
 int main(int argc, char *argv[])
 	{
 		char *wordDictionary[][];
+		person p = malloc(sizeof(person);
+		chat_node cn = malloc(sizeof(chat_node);
+		
+
+		//TODO scanf get user input. set cn->leve to 1
+		//iterate over for reference words. depending on the cn 
+		//the reference nodes shoudl be different
+		// giant if case for each level, respond approprietly
+		
 		
 
 	return 0;
