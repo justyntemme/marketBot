@@ -2,6 +2,13 @@
 #include <stdlib.h>
 #include "dlist.h"
 
+/* All Functions ending with a comment are functions from the same project
+ * as dlist.h and have only changed small amounts if any. all work on functions
+ * are pushed upstream to the dutils project
+ *
+ *
+ */
+
 void dlist_node_foreach(struct dlist_list *list,
 			void *(*action)(void *carry, void *data, void *param),
 			void *param)
@@ -74,6 +81,7 @@ struct dlist_node *dlist_node_new(struct dlist_list *list,
 	node->data_dalloc = dalloc;
 	node->next = NULL;
 	node->prev = NULL;
+	list->count++;
 
 	return node;
 }/* dlist_node_new */
@@ -85,7 +93,7 @@ void populateLists(struct dlist_list *list, int size)
 	{
 		node->next =dlist_node_new(list,NULL,NULL);
 		node=node->next;
-		list->count++;
+		
 	}
 	list->tail=node;
 }
