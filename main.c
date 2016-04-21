@@ -79,18 +79,25 @@ struct dlist_node *dlist_node_new(struct dlist_list *list,
 }/* dlist_node_new */
 void populateLists(struct dlist_list *list, int size)
 {
-	struct dlist_node *node = NULL;
+	struct dlist_node *node = dlist_node_new(list,NULL,NULL);
+	list->head=node;
 	for (int i = 0; i < size; i++)
 	{
-		node =dlist_node_new(list,NULL,NULL);
+		node->next =dlist_node_new(list,NULL,NULL);
+		node=node->next;
+		list->count++;
 	}
+	list->tail=node;
 }
 int main(int argc, char *argv[])
 {
-	struct dlist_list *master_list = malloc(sizeof(struct dlist_list));
-	master_list = dlist_init(master_list,NULL,NULL);
-	populateLists(master_list,3);
+	struct dlist_list *master_list = malloc(sizeof(struct dlist_list)); //assign master list
+	master_list = dlist_init(master_list,NULL,NULL); //initialize list
+	populateLists(master_list,3); //populate 3 nodes on list
+
+	//node = master node
 	struct dlist_node *node = master_list->head;
+	//get list size
 	int listSize = dlist_get_size(master_list);
 	printf("%d\n",listSize);
 	void *carry = NULL;
