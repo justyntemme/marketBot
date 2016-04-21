@@ -8,7 +8,6 @@
  *
  *
  */
-
 void dlist_node_foreach(struct dlist_list *list,
 			void *(*action)(void *carry, void *data, void *param),
 			void *param)
@@ -56,8 +55,6 @@ void *checkString(int *carry, void *data, void *param) //implament point system 
 			locationInArray++;
 		}	
 	return 0;
-
-
 }
 
 inline size_t dlist_get_size(struct dlist_list *list)
@@ -86,6 +83,7 @@ struct dlist_node *dlist_node_new(struct dlist_list *list,
 
 	return node;
 }/* dlist_node_new */
+
 void populateLists(struct dlist_list *list, int size) //TODO add data as an argument. the wordlist
 {
 	struct dlist_node *node = dlist_node_new(list,NULL,NULL);
@@ -94,10 +92,10 @@ void populateLists(struct dlist_list *list, int size) //TODO add data as an argu
 	{
 		node->next =dlist_node_new(list,NULL,NULL);
 		node=node->next;
-		
 	}
 	list->tail=node;
 }
+
 int main(int argc, char *argv[])
 {
 	struct dlist_list *master_list = malloc(sizeof(struct dlist_list)); //assign master list
@@ -116,9 +114,6 @@ int main(int argc, char *argv[])
 
 	return 0;
 }
-
-
-
 /*	DATA struct info
  *	10 byte string [s,t,r,i,n,g,0,0,\0]
  *	array of strings that corrospond in position of array to value
@@ -130,8 +125,4 @@ int main(int argc, char *argv[])
  *				point based system. Certain words attribute points to the next
  *				sentance. certain words are worth more. would be held in a stucture
  *				with two arrays. one containing word,theother containing point value
- *
- *
- *
- *
  */
