@@ -87,14 +87,41 @@ struct dlist_node *dlist_node_new(struct dlist_list *list,
 void populateLists(struct dlist_list *list, int size) //TODO add data as an argument. the wordlist
 {
 	struct dlist_node *node = dlist_node_new(list,NULL,NULL);
-	list->head=node;
+	dlist_node_append(list,node);
 	for (int i = 0; i < size; i++)
 	{
-		node->next =dlist_node_new(list,NULL,NULL);
+
+		dlist_node_append(list,malloc(sizeof(struct dlist_node)));
 		node=node->next;
 	}
-	list->tail=node;
+	
 }
+
+
+struct dlist_node *dlist_node_append(struct dlist_list *list,
+				     struct dlist_node *node)
+{
+	if ( !list || !node )
+		return NULL;
+
+	//check add @ head
+	if ( !list->head ) {
+		list->head = node;
+		node->next = NULL;
+		node->prev = NULL;
+		list->tail = node;
+		++list->count;
+		return node;
+	}
+
+	list->tail->next = node;
+	node->next = NULL;
+	node->prev = list->tail;
+	list->tail = node;
+	++list->count;
+
+	return node;
+}/* dlist_node_append */
 
 int main(int argc, char *argv[])
 {
