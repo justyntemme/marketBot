@@ -52,32 +52,30 @@ struct dlist_list *dlist_init(struct dlist_list *list,
 	return list;
 }/* dlist_init */
 
+int checkString()
+{
+	int lengthOfString = 0;
+	int locationInArray = 0;
+	
+	while (locationInArray < sizeOfArray)
+		{
+			switch(locationInArray)
+			{
+				case 0:
+					printf("TODO Add reference words\n");
+					break;
+			}	
+			locationInArray++;
+		}	
+
+
+}
 
 int main(int argc, char *argv[])
 {
-	int locationInArray = 0;
-	int sizeOfArray = 0;
 	struct dlist_list *master_list = malloc(sizeof(struct dlist_list));
 	master_list = dlist_init(master_list,NULL,NULL);
 	struct dlist_node *node= master_list->head;
-
-	while (locationInArray < sizeOfArray)
-	{
-		switch(locationInArray)
-		{	
-			case 0:
-				printf("TODO: Add reference words");
-				break;
-			case 1:
-				printf("TODO: Add reference words");
-				break;	
-			case 3: 
-				printf("TODO: Add reference words");
-				break;
-		}
-		locationInArray++;
-	}
-
 
 	return 0;
 }
