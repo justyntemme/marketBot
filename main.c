@@ -38,7 +38,8 @@ struct dlist_list *dlist_init(struct dlist_list *list,
 	return list;
 }/* dlist_init */
 
-void *checkString(int *carry, void *data, void *param)
+void *checkString(int *carry, void *data, void *param) //implament point system here. a for loop for the size of array might be a better option, then a case
+						       // switch if the word is one of the reference words. with the last case being nill
 {
 	int locationInArray = 0;
 	int sizeOfArray = 0;	
@@ -85,7 +86,7 @@ struct dlist_node *dlist_node_new(struct dlist_list *list,
 
 	return node;
 }/* dlist_node_new */
-void populateLists(struct dlist_list *list, int size)
+void populateLists(struct dlist_list *list, int size) //TODO add data as an argument. the wordlist
 {
 	struct dlist_node *node = dlist_node_new(list,NULL,NULL);
 	list->head=node;
@@ -115,3 +116,22 @@ int main(int argc, char *argv[])
 
 	return 0;
 }
+
+
+
+/*	DATA struct info
+ *	10 byte string [s,t,r,i,n,g,0,0,\0]
+ *	array of strings that corrospond in position of array to value
+ *	['apple''buy''checkout']
+ *	['2' '3' '4']
+ *			not sure weather to have function or chat_node be the value for the point 
+ *			system.
+ *	ways to implament
+ *				point based system. Certain words attribute points to the next
+ *				sentance. certain words are worth more. would be held in a stucture
+ *				with two arrays. one containing word,theother containing point value
+ *
+ *
+ *
+ *
+ */
