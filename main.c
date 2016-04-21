@@ -18,27 +18,6 @@ void dlist_node_foreach(struct dlist_list *list,
 	return;
 }/* dlist_node_foreach */
 
-struct dlist_node *dlist_node_new(struct dlist_list *list,
-				  void *data, void (*dalloc)(void *))
-{
-	struct dlist_node *node = NULL;
-
-	if ( NULL == (node = list->node_alloc(sizeof( struct dlist_node))) ) {
-		//FIXME: add support for custom error loggin and msg
-		fprintf(stderr,"%s[%d]:%s alloc failed\n", __FILE__,
-			__LINE__,__func__);
-
-		return NULL;
-	}
-
-	node->data = data;
-	node->data_dalloc = dalloc;
-	node->next = NULL;
-	node->prev = NULL;
-
-	return node;
-}/* dlist_node_new */
-
 struct dlist_list *dlist_init(struct dlist_list *list,
 			      void *(*node_alloc)(size_t),
 			      void (*node_dalloc)(void *))
@@ -73,18 +52,51 @@ void *checkString(int *carry, void *data, void *param)
 
 }
 
+inline size_t dlist_get_size(struct dlist_list *list)
+{
+	return list->count;
+}/* dlist_get_size */
+
+struct dlist_node *dlist_node_new(struct dlist_list *list,
+				  void *data, void (*dalloc)(void *))
+{
+	struct dlist_node *node = NULL;
+
+	if ( NULL == (node = list->node_alloc(sizeof( struct dlist_node))) ) {
+		//FIXME: add support for custom error loggin and msg
+		fprintf(stderr,"%s[%d]:%s alloc failed\n", __FILE__,
+			__LINE__,__func__);
+
+		return NULL;
+	}
+
+	node->data = data;
+	node->data_dalloc = dalloc;
+	node->next = NULL;
+	node->prev = NULL;
+
+	return node;
+}/* dlist_node_new */
+void populateLists(struct dlist_list *list, int size)
+{
+	struct dlist_node *node = NULL;
+	for (int i = 0; i < size; i++)
+	{
+		node =dlist_node_new(list,NULL,NULL);
+	}
+}
 int main(int argc, char *argv[])
 {
 	struct dlist_list *master_list = malloc(sizeof(struct dlist_list));
 	master_list = dlist_init(master_list,NULL,NULL);
-	struct dlist_node *node= master_list->head;
-	//TODO call these as functions
+	populateLists(master_list,3);
+	struct dlist_node *node = master_list->head;
+	int listSize = dlist_get_size(master_list);
+	printf("%d\n",listSize);
 	void *carry = NULL;
 	void *param = NULL;
-	//???? this may be broke. we will find out when i populate the list
 	dlist_node_foreach(master_list,(void *)(checkString(carry,node->data,param)),param);
 
-//last NULL should be 
 
 	return 0;
 }
