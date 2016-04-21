@@ -52,21 +52,23 @@ struct dlist_list *dlist_init(struct dlist_list *list,
 	return list;
 }/* dlist_init */
 
-int checkString()
+void *checkString(int *carry, void *data, void *param)
 {
-	int lengthOfString = 0;
 	int locationInArray = 0;
-	
+	int sizeOfArray = 0;	
 	while (locationInArray < sizeOfArray)
 		{
 			switch(locationInArray)
 			{
 				case 0:
 					printf("TODO Add reference words\n");
+					//TODO add array of reference words as 3rd param
+					
 					break;
 			}	
 			locationInArray++;
 		}	
+	return 0;
 
 
 }
@@ -76,6 +78,13 @@ int main(int argc, char *argv[])
 	struct dlist_list *master_list = malloc(sizeof(struct dlist_list));
 	master_list = dlist_init(master_list,NULL,NULL);
 	struct dlist_node *node= master_list->head;
+	//TODO call these as functions
+	void *carry = NULL;
+	void *param = NULL;
+	//???? this may be broke. we will find out when i populate the list
+	dlist_node_foreach(master_list,(void *)(checkString(carry,node->data,param)),param);
+
+//last NULL should be 
 
 	return 0;
 }
