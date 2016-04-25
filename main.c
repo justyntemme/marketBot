@@ -8,19 +8,45 @@
  *
  *
  */
+struct dlist_node *dlist_node_new(struct dlist_list *list,
+				  int *data, void (*dalloc)(void *))
+{
+	struct dlist_node *node = NULL;
+
+	if ( NULL == (node = list->node_alloc(sizeof( struct dlist_node))) ) {
+		//FIXME: add support for custom error loggin and msg
+		fprintf(stderr,"%s[%d]:%s alloc failed\n", __FILE__,
+			__LINE__,__func__);
+		return NULL;
+	}
+
+	node->data = data;
+	node->data_dalloc = dalloc;
+	node->next = NULL;
+	node->prev = NULL;
+	list->count++;
+
+	return node;
+}/* dlist_node_new */
+
 void dlist_node_foreach(struct dlist_list *list,
 			void *(*action)(void *carry, void *data, void *param),
 			void *param)
 {
-	if ( !list || !list->head || !action )
+	if ( !list || !list->head || !action ){	
+		printf("error\n");
+		printf("%d\n",*list);
+		printf("%d\n",*action);
 		return;
-
+	}
 	struct dlist_node *iter = NULL;
 	void *carry = NULL;
-
+	printf("%d",list->head);
 	for(iter = list->head; NULL != iter; iter = iter->next)
+	{
 		carry = action(carry, iter->data, param);
-
+		printf("%d",*(int *)carry);
+	}
 	return;
 }/* dlist_node_foreach */
 
@@ -37,66 +63,33 @@ struct dlist_list *dlist_init(struct dlist_list *list,
 	return list;
 }/* dlist_init */
 
-void *checkString(int *carry, void *data, void *param) //implament point system here. a for loop for the size of array might be a better option, then a case
-						       // switch if the word is one of the reference words. with the last case being nill
-{
-	int locationInArray = 0;
-	int sizeOfArray = 0;	
-	while (locationInArray < sizeOfArray)
-		{
-			switch(locationInArray)
-			{
-				case 0:
-					printf("TODO Add reference words\n");
-					//TODO add array of reference words as 3rd param
-					
-					break;
-			}	
-			locationInArray++;
-		}	
-	return 0;
+int *fillString(int *carry, int *data, void *param) //implament point system here. a for loop for the size of array might be a better option, then a case
+						       // switch if the word is one of the reference words. with the last jjcase being nill
+{		
+	printf("%d",*carry);
+	int temp = *carry;
+	temp++;	
+	return (temp);
 }
-
 inline size_t dlist_get_size(struct dlist_list *list)
 {
 	return list->count;
 }/* dlist_get_size */
 
-struct dlist_node *dlist_node_new(struct dlist_list *list,
-				  void *data, void (*dalloc)(void *))
-{
-	struct dlist_node *node = NULL;
 
-	if ( NULL == (node = list->node_alloc(sizeof( struct dlist_node))) ) {
-		//FIXME: add support for custom error loggin and msg
-		fprintf(stderr,"%s[%d]:%s alloc failed\n", __FILE__,
-			__LINE__,__func__);
-
-		return NULL;
-	}
-
-	node->data = data;
-	node->data_dalloc = dalloc;
-	node->next = NULL;
-	node->prev = NULL;
-	list->count++;
-
-	return node;
-}/* dlist_node_new */
 
 void populateLists(struct dlist_list *list, int size) //TODO add data as an argument. the wordlist
 {
-	struct dlist_node *node = dlist_node_new(list,NULL,NULL);
-	dlist_node_append(list,node);
+	
+
 	for (int i = 0; i < size; i++)
 	{
 
 		dlist_node_append(list,malloc(sizeof(struct dlist_node)));
-		node=node->next;
+		
 	}
 	
 }
-
 
 struct dlist_node *dlist_node_append(struct dlist_list *list,
 				     struct dlist_node *node)
@@ -134,9 +127,12 @@ int main(int argc, char *argv[])
 	//get list size
 	int listSize = dlist_get_size(master_list);
 	printf("%d\n",listSize);
-	void *carry = NULL;
+	int *carry = malloc(sizeof(int));
+	*carry = 1;
 	void *param = NULL;
-	dlist_node_foreach(master_list,(void *)(checkString(carry,node->data,param)),param);
+
+	//printf("%d",master_list->head->next->next);
+	dlist_node_foreach(master_list,fillString(carry,NULL,param),param);
 
 
 	return 0;
