@@ -82,6 +82,8 @@ void *fillString(int *carry,struct reference_list *rlist,int *param) //implament
 	switch (*carry)
 	{
 		case 0:
+			//pass user words as param. for every word included run that word function. some functions may require more "points" which can be added per iteration
+	//this means to "checkout" the user will have to accumilate checkout points. the first node gets the user input then moves on to secound node
 			printf("At first node\n");
 			rlist->words[0] = "buy\0";
 			rlist->words[1] = "apple\0";
@@ -90,14 +92,21 @@ void *fillString(int *carry,struct reference_list *rlist,int *param) //implament
 			rlist->words[4] = "price\0";
 			printf("char is %s \n",rlist->words[0]);
 			break;
-		case 1:
+		case 1: // secound node accepts user input and the point list. depending on point totals the funcions will run 
 			printf("At 2nd node\n");
 			rlist->words[0] = "123";
 			break;
-		case 3:
+		case 3: 
 			printf("At 3rd node\n");
 			rlist->words[0] = "c";
 			break;
+	/*
+	point list system
+				checkout requires 3 tokens. chat node 1 keep repeating gathering point totals until a point total is reached. then move to
+				that step. add to cart as well as remove from cart will have confirmation functions. as soon as one point is reached, the confir
+				mation fires that adds another point
+			checkout 3		add to cart 2 tokens | remove from cart 2 tokens	
+	*/
 	}
 	*(int *)carry+=1;
 	// TODO add DATA param with reference words. Fun stuff is about to begain	
@@ -152,16 +161,17 @@ int main(int argc, char *argv[])
 {
 	struct dlist_list *master_list = malloc(sizeof(struct dlist_list)); //assign master list
 	master_list = dlist_init(master_list,NULL,NULL); //initialize list
-	populateLists(master_list,3); //populate 3 nodes on list
 	void *(*fillStringPointer)(int *,int *, void *) = &fillString;
-	//node = master node
-	struct dlist_node *node = master_list->head;
-	//get list size
+	
+	populateLists(master_list,3); //populate 3 nodes on list	
+
+
 	int listSize = dlist_get_size(master_list);
+
+
 	struct reference_list *rlist = &(master_list->head->data);
-	
-	
 	dlist_node_foreach(master_list,fillStringPointer,NULL);
+	
 	printf("Address of main rlist is %d\n",&rlist);
 	printf("char is %s \n",rlist->words[0]);
 	rlist = &(master_list->head->next->data);
@@ -174,7 +184,6 @@ int main(int argc, char *argv[])
 
 }
 /*	DATA struct info
- *	10 byte string [s,t,r,i,n,g,0,0,\0]
  *	array of strings that corrospond in position of array to value
  *	['apple''buy''checkout']
  *	['2' '3' '4']
