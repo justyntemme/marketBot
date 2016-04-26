@@ -35,17 +35,18 @@ void dlist_node_foreach(struct dlist_list *list,
 {
 	if ( !list || !list->head || !action ){	
 		printf("error\n");
-		printf("%d\n",*list);
-		printf("%d\n",*action);
+		
+		
+		
 		return;
 	}
 	struct dlist_node *iter = NULL;
-	void *carry = NULL;
-	printf("%d",list->head);
+	void *carry = malloc(sizeof(int));
+	*(int *)carry = 0;
 	for(iter = list->head; NULL != iter; iter = iter->next)
 	{
 		carry = action(carry, iter->data, param);
-		printf("%d",*(int *)carry);
+
 	}
 	return;
 }/* dlist_node_foreach */
@@ -63,13 +64,13 @@ struct dlist_list *dlist_init(struct dlist_list *list,
 	return list;
 }/* dlist_init */
 
-int *fillString(int *carry, int *data, void *param) //implament point system here. a for loop for the size of array might be a better option, then a case
+void *fillString(int *carry, int *data, void *param) //implament point system here. a for loop for the size of array might be a better option, then a case
 						       // switch if the word is one of the reference words. with the last jjcase being nill
-{		
-	printf("%d",*carry);
-	int temp = *carry;
-	temp++;	
-	return (temp);
+{	
+	*(int *)carry+=1;
+	//printf("Count: %d\n",*(int *)carry);
+	// TODO add DATA param with reference words. Fun stuff is about to begain	
+	return (carry);
 }
 inline size_t dlist_get_size(struct dlist_list *list)
 {
@@ -121,21 +122,17 @@ int main(int argc, char *argv[])
 	struct dlist_list *master_list = malloc(sizeof(struct dlist_list)); //assign master list
 	master_list = dlist_init(master_list,NULL,NULL); //initialize list
 	populateLists(master_list,3); //populate 3 nodes on list
-
+	void *(*fillStringPointer)(int *,int *, void *) = &fillString;
 	//node = master node
 	struct dlist_node *node = master_list->head;
 	//get list size
 	int listSize = dlist_get_size(master_list);
-	printf("%d\n",listSize);
-	int *carry = malloc(sizeof(int));
-	*carry = 1;
-	void *param = NULL;
-
-	//printf("%d",master_list->head->next->next);
-	dlist_node_foreach(master_list,fillString(carry,NULL,param),param);
+	
+	dlist_node_foreach(master_list,fillStringPointer,NULL);
 
 
 	return 0;
+
 }
 /*	DATA struct info
  *	10 byte string [s,t,r,i,n,g,0,0,\0]
